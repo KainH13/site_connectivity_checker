@@ -1,6 +1,7 @@
 from http.client import HTTPConnection
 from urllib.parse import urlparse
 
+
 def site_is_online(url, timeout=2):
     """
     Return True if the target URL is online.
