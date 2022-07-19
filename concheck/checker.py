@@ -1,6 +1,5 @@
 import asyncio
 from http.client import HTTPConnection
-from tkinter import E
 from urllib.parse import urlparse
 
 import aiohttp

@@ -4,13 +4,14 @@ from dotenv import load_dotenv
 import os
 
 # import blueprints
-from flask_app.controllers.connectivity_check import connectivity_check
+from flask_app.blueprints.connectivity_check import connectivity_check
 
+# load environmental variables
 load_dotenv()
 
 # initialize app
 app = Flask(__name__)
-CORS(app)
+CORS(app) # allows front end server to access endpoints
 app.secret_key = os.getenv("SECRET_KEY")
 
 # blueprints
