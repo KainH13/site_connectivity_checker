@@ -1,4 +1,3 @@
-import json
 from flask import Blueprint, jsonify, request
 import asyncio
 from http.client import HTTPConnection
