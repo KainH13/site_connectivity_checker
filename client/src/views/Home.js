@@ -1,9 +1,12 @@
 import React from "react";
 
 // components
+import ConnectionCheckForm from "../components/ConnectionCheckForm";
 
 const Home = (props) => {
-  return <div>Home</div>;
+  return (
+    <ConnectionCheckForm />
+  );
 };
 
 export default Home;
