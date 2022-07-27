@@ -39,6 +39,12 @@ const ConnectionCheckForm = (props) => {
       });
   };
 
+  const removeUrl = (e, index) => {
+    let tempUrls = [...urls];
+    tempUrls.splice(index, 1);
+    setUrls(tempUrls);
+  };
+
   return (
     <div className="card p-2 m-2 shadow">
       <h2 className="text-center">What connections would you like to check?</h2>
@@ -60,7 +66,14 @@ const ConnectionCheckForm = (props) => {
                   onChange={(e) => changeHandler(e, index)}
                 />
               </div>
-              <div className="col-6">
+              <div
+                onClick={(e) => removeUrl(e, index)}
+                className="col-1 btn btn-outline-secondary rounded-circle"
+                style={{ width: "40px" }}
+              >
+                x
+              </div>
+              <div className="col-5">
                 {results && resultData[url] !== undefined ? (
                   <div>
                     {resultData[url]["status"] === "Online" ? (
