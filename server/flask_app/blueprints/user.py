@@ -19,6 +19,23 @@ def create_user():
     return jsonify(User.create(data))
 
 
+# Login
+@user.route("/login", methods=["POST"])
+def login():
+    data = {"email": request.json["email"]}
+    user_in_db = User.get_by_email(data)
+    if not user_in_db:
+        output = {"login": "fail", "error": "Invalid email/password"}
+        return jsonify(output)
+    if user_in_db and not bcrypt.check_password_hash(
+        user_in_db.password, request.json["password"]
+    ):
+        output = {"login": "fail", "error": "Invalid email/password"}
+        return jsonify(output)
+    output = {"login": "success", "email": user_in_db.email}
+    return jsonify(output)
+
+
 # Read
 @user.route("/getByID", methods=["POST"])
 def user_by_id():
@@ -36,6 +53,7 @@ def all_emails():
     return jsonify(User.get_all_emails())
 
 
+# Delete
 @user.route("/delete", methods=["DELETE"])
 def delete_user():
     data = {"id": request.json["id"]}
