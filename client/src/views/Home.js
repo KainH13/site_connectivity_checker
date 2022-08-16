@@ -2,10 +2,14 @@ import React from "react";
 
 // components
 import ConnectionCheckForm from "../components/ConnectionCheckForm";
+import Navbar from "../components/Navbar";
 
 const Home = (props) => {
   return (
-    <ConnectionCheckForm />
+    <div>
+      <Navbar /> 
+      <ConnectionCheckForm />
+    </div>
   );
 };
 
