@@ -11,7 +11,7 @@ connectivity_check = Blueprint(name="connectivity_check", import_name=__name__)
 @connectivity_check.route("/test", methods=["GET"])
 def test():
     output = {"msg": "I'm the test endpoint from connectivity_check."}
-    return jsonify(output)
+    return jsonify(output), 200
 
 
 @connectivity_check.route("/basic", methods=["POST"])
@@ -37,7 +37,7 @@ def basic_connectivity_check():
                 output[url]["error"] = error
             finally:
                 connection.close()
-    return jsonify(output)
+    return jsonify(output), 200
 
 
 @connectivity_check.route("/async", methods=["POST"])
@@ -68,4 +68,4 @@ async def connectivity_check_async():
                     error = str(e)
                     output[url]["status"] = "Offline"
                     output[url]["error"] = error
-    return jsonify(output)
+    return jsonify(output), 200

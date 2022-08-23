@@ -6,7 +6,6 @@ class User:
 
     def __init__(self, data):
         self.id = data["id"]
-        self.username = data["username"]
         self.email = data["email"]
         self.password = data["password"]
         self.created_at = data["created_at"]
@@ -15,7 +14,7 @@ class User:
     # Create
     @classmethod
     def create(cls, data):
-        query = "INSERT INTO users (username, email, password) VALUES(%(username)s, %(email)s, %(password)s);"
+        query = "INSERT INTO users (email, password) VALUES(%(email)s, %(password)s);"
         return connectToMySQL(cls.db).query_db(query, data)
 
     # Read
@@ -27,10 +26,7 @@ class User:
     @classmethod
     def get_by_email(cls, data):
         query = "SELECT *  FROM users WHERE email = %(email)s;"
-        result = connectToMySQL(cls.db).query_db(query, data)
-        if len(result) < 1:
-            return False
-        return cls(result[0])
+        return connectToMySQL(cls.db).query_db(query, data)
 
     @classmethod
     def get_all_users(cls):
@@ -49,7 +45,7 @@ class User:
     # Update
     @classmethod
     def update_user_by_id(cls, data):
-        query = "UPDATE users SET username=%(username)s WHERE id=%(id)s;"
+        query = "UPDATE users SET email=%(email)s WHERE id=%(id)s;"
         return connectToMySQL(cls.db).query_db(query, data)
 
     # Delete
