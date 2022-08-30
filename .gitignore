@@ -3,7 +3,6 @@ venv
 testing/
 
 .env
-concheck_db.mwb
 .vscode
 
 # for React app
