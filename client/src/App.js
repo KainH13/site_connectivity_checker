@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 // bootstrap
@@ -8,13 +8,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./views/Home";
 import Login from "./views/Login";
 
+// context
+import userContext from "./context/userContext";
+
 function App() {
+  const [userData, setUserData] = useState(null);
+
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login / >} />
-      </Routes>
+      <userContext.Provider value={{ userData, setUserData }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </userContext.Provider>
     </div>
   );
 }

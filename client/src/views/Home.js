@@ -4,12 +4,21 @@ import React from "react";
 import ConnectionCheckForm from "../components/ConnectionCheckForm";
 import Navbar from "../components/Navbar";
 
+// context
+import userContext from "../context/userContext";
+
 const Home = (props) => {
   return (
-    <div>
-      <Navbar /> 
-      <ConnectionCheckForm />
-    </div>
+    <userContext.Consumer>
+      {({ userData, setUserData }) => {
+        return (
+          <div>
+            <Navbar userData={userData} setUserData={setUserData} />
+            <ConnectionCheckForm userData={userData} setUserData={setUserData} />
+          </div>
+        );
+      }}
+    </userContext.Consumer>
   );
 };
 

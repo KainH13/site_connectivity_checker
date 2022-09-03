@@ -8,6 +8,8 @@ const ConnectionCheckForm = (props) => {
   const [results, setResults] = useState(false);
   const [resultData, setResultData] = useState({});
 
+  // TODO add saved URL list if logged in
+
   const addUrl = () => {
     let newUrls = [...urls];
     newUrls.push("");

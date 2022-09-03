@@ -1,37 +1,25 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Navbar = (props) => {
-  const navigate = useNavigate();
+  const { userData, setUserData } = props;
 
   const logout = (e) => {
-    axios
-      .post(
-        "http://localhost:4999/api/v1/user/logout",
-        {},
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        localStorage.clear();
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setUserData(null);
   };
 
   return (
     <nav className="navbar navbar-light bg-light sticky-top">
       <div className="container-fluid justify-content-start">
-        <h1 className="navbar-brand text-secondary m-1">ConCheck</h1>
+        <Link className="navbar-brand text-secondary m-1" to="/">
+          ConCheck
+        </Link>
         <div className="nav m-1">
-          <Link className="nav-link" to="/">
-            Check Connections
-          </Link>
+          {userData ? (
+            <h2 className="text-secondary ms-3">
+              Logged In As: {userData.user.email}
+            </h2>
+          ) : null}
           <Link className="btn btn-outline-primary ms-3" to="/login">
             Login
           </Link>

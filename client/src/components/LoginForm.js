@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = (props) => {
+  const { userData, setUserData } = props;
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -11,29 +13,23 @@ const LoginForm = (props) => {
 
   const login = (e) => {
     e.preventDefault();
-
     axios
       .post(
-        "http://localhost:8000/api/users/login",
+        "http://localhost:4999/api/v1/user/login",
         {
           email: email,
           password: password,
         },
-        {
-          withCredentials: true,
-        }
       )
       .then((res) => {
         console.log("response: ", res);
         console.log("response data: ", res.data);
-        localStorage.setItem("loggedIn", "true");
-        localStorage.setItem("userID", res.data.userId);
-        navigate("/home");
+        setUserData(res.data)
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
-        console.log(err.response.data);
-        setErrorMessage(err.response.data.message);
+        setErrorMessage(err.response.data.error);
       });
   };
 

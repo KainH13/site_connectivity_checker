@@ -20,6 +20,7 @@ def register():
     json body is expected to contain {
         email: required(string),
         password: required(string)
+        confirmPassword: required(string)
     }
     """
 
@@ -27,12 +28,16 @@ def register():
     data = request.get_json(force=True)
     email = data.get("email", None)
     password = data.get("password", None)
+    confirmPassword = data.get("confirmPassword", None)
 
     if None in [email, password]:
         return (
             jsonify({"error": "Email and password are required to create an account"}),
             400,
         )
+
+    if password != confirmPassword:
+        return (jsonify({"error": "Passwords do not match"}), 400)
 
     if len(password) < 6:
         return jsonify({"error": "Password must be at least 6 characters"}), 400

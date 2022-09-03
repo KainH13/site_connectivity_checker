@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const RegisterForm = (props) => {
+  const { userData, setUserData } = props;
+  // TODO fix bug stopping render
   // error handling
-  const [confirmReg, setConfirmReg] = useState("");
-  const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
 
   // saving form inputs
   const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -26,66 +25,30 @@ const RegisterForm = (props) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8000/api/users/register", user, {
-        withCredentials: true,
-      })
+      .post("http://localhost:4999/api/v1/user/register", user)
       .then((res) => {
         console.log(res.data);
         setUser({
-          firstName: "",
-          lastName: "",
           email: "",
           password: "",
           confirmPassword: "",
         });
-        setConfirmReg("Thank you for Registering, you can now log in!");
-        setErrors({});
+        setUserData(res.data);
+        setErrorMessage(null);
       })
       .catch((err) => {
         console.log(err);
-        setErrors(err.response.data.errors);
+        setErrorMessage(err.response.data.error);
       });
   };
 
   return (
     <div className="col card m-2 shadow">
       <h2 className="text-primary">Register</h2>
-      {confirmReg ? <h4 className="text-center">{confirmReg}</h4> : null}
       <form onSubmit={register}>
-        <div className="form-group d-flex flex-column mb-3">
-          <label htmlFor="firstName">First Name:</label>
-          <input
-            className="form-control"
-            type="text"
-            name="firstName"
-            value={user.firstName}
-            onChange={(e) => {
-              handleChange(e);
-            }}
-          />
-          {errors.firstName ? (
-            <div className="alert alert-danger my-1">
-              {errors.firstName.message}
-            </div>
-          ) : null}
-        </div>
-        <div className="form-group d-flex flex-column mb-3">
-          <label htmlFor="lastName">Last Name:</label>
-          <input
-            className="form-control"
-            type="text"
-            name="lastName"
-            value={user.lastName}
-            onChange={(e) => {
-              handleChange(e);
-            }}
-          />
-          {errors.lastName ? (
-            <div className="alert alert-danger my-1">
-              {errors.lastName.message}
-            </div>
-          ) : null}
-        </div>
+        {errorMessage ? (
+          <div className="alert alert-danger my-1">{errorMessage}</div>
+        ) : null}
         <div className="form-group d-flex flex-column mb-3">
           <label htmlFor="email">Email:</label>
           <input
@@ -97,11 +60,6 @@ const RegisterForm = (props) => {
               handleChange(e);
             }}
           />
-          {errors.email ? (
-            <div className="alert alert-danger my-1">
-              {errors.email.message}
-            </div>
-          ) : null}
         </div>
         <div className="form-group d-flex flex-column mb-3">
           <label htmlFor="password">Password:</label>
@@ -114,11 +72,6 @@ const RegisterForm = (props) => {
               handleChange(e);
             }}
           />
-          {errors.password ? (
-            <div className="alert alert-danger my-1">
-              {errors.password.message}
-            </div>
-          ) : null}
         </div>
         <div className="form-group d-flex flex-column mb-3">
           <label htmlFor="confirmPassword">Confirm Password:</label>
@@ -131,11 +84,6 @@ const RegisterForm = (props) => {
               handleChange(e);
             }}
           />
-          {errors.confirmPassword ? (
-            <div className="alert alert-danger my-1">
-              {errors.confirmPassword.message}
-            </div>
-          ) : null}
         </div>
         <input
           className="btn btn-outline-primary mb-3"
